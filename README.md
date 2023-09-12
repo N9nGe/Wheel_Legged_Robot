@@ -15,11 +15,11 @@ This is a Wheel legged robot project. The motivation for this project arises fro
 
 **Team Member**
 -----------
-[Naixiang Gao](https://github.com/ngao4)
+[Naixiang Gao](https://github.com/N9nGe)
 
 [Runxuan Wang](https://github.com/jerrywrx)
 
-Zehao Yuan
+[Zehao Yuan](https://github.com/Tonyyzh)
 
 **Components**
 ----------
