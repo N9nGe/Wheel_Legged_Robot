@@ -17,7 +17,7 @@ The reason is that we want to use this motor as a "torque controller", which can
 
 The reason is that we want the motor can receive and send the data or signal when we have instantaneous large torque. The instantaneous large torque will lead the instantaneous large power, which might interfere with the data signal. When we use the motor to output a large torque, we need to ensure its excellent heat dissipation to avoid burn it. When the robot is descending stairs, we need to have enough torque to counter the falling momentum of the robot.
 
-# Establish Physical Model <a name="PhysicalModel"></a>
+# Establish Physical Model <b name="PhysicalModel"></b>
 ## Abstract Model Image
 ![Abstract_model](../../image/abstract_model.png)
 ### Variable and Parameter Declaration 
