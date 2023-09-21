@@ -1,7 +1,7 @@
 # Naixiang(Gabriel) Gao Development Log
 1. [Motor Selection](#MotorSelection)
 2. [Establish Physical Model](#PhysicalModel)
-3. [Reference](#Reference)
+3. [a](#reference)
 
 # Motor Selection <a id="MotorSelection"></a>
 ## Wheel Motors
@@ -63,31 +63,40 @@ Because the wheel will not move in vertical axis, the net force in vertical axis
 **For the net force:**
 
 **Define $F_l$ is the force from rod to the wheel -> $F_l*cos(theta) = -N$**
+
 $$
-F = ma\\
-N_f + F_l*cos(theta) = m_w \ddot{x}\\
-N_f - N = m_w \ddot{x} \tag{1}
+\begin{align}
+F &= ma \\
+N_f + F_l*cos(theta) &= m_w \ddot{x} \\
+N_f - N &= m_w \ddot{x} \tag{1}
+\end{align}
 $$
 
 **For the net torque:**
 **According to transformation between rotation and linear motion**
+
 $$
-T = I\alpha\\
-T - N_f * R = I_w \frac{\ddot{x}}{R} \tag{2}\\
+\begin{align}
+T &= I\alpha \\
+T - N_f * R &= I_w \frac{\ddot{x}}{R} \tag{2}\\
+\end{align}
 $$
 
 **Combine equation (1) and (2), we can eliminate $N_f$**
 
 According (1):
-$$
+```math
 N_f = m_w \ddot{x} + N \tag{3}
-$$
+```
 Plug (3) into (2):
+
 $$
-T - (m_w \ddot{x} + N)* R = I_w \frac{\ddot{x}}{R}\\
-T - NR - m_wR\ddot{x} = I_w \frac{\ddot{x}}{R}\\
-(\frac{I_w}{R} + m_w R)\ddot{x} = T - NR\\
-\ddot{x} = \frac{T - NR}{\frac{I_w}{R} + m_w R} \tag{4}
+\begin{align}
+T - (m_w \ddot{x} + N)* R &= I_w \frac{\ddot{x}}{R}\\
+T - NR - m_wR\ddot{x} &= I_w \frac{\ddot{x}}{R}\\
+(\frac{I_w}{R} + m_w R)\ddot{x} &= T - NR\\
+\ddot{x} &= \frac{T - NR}{\frac{I_w}{R} + m_w R} \tag{4}
+\end{align}
 $$
 
 ### Rod Force Analysis
@@ -96,6 +105,5 @@ $$
 ### Body Force Analysis
 
 
-# Reference <c id="Reference"></c>
-[1] 韭菜的菜. (2022, September 10). RoboMaster平衡步兵机器人控制系统设计. ZhiHu. https://zhuanlan.zhihu.com/p/563048952 
+# Reference <c id="reference"></c>
 
