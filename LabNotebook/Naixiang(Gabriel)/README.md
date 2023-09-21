@@ -85,9 +85,13 @@ $$
 **Combine equation (1) and (2), we can eliminate $N_f$**
 
 According (1):
-```math
+
+$$
+\begin{align}
 N_f = m_w \ddot{x} + N \tag{3}
-```
+\end{align}
+$$
+
 Plug (3) into (2):
 
 $$
