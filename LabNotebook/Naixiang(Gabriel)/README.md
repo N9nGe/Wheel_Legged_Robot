@@ -1,6 +1,6 @@
 # Naixiang(Gabriel) Gao Development Log
 1. [Motor Selection](#MotorSelection)
-2. [Establish Physical Model](#PhysicalModel)
+2. [Establish Physical Model](#establish-physical-model-)
 3. [Reference](#reference)
 
 # Motor Selection <a id="MotorSelection"></a>
