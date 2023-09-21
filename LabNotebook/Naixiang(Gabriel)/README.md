@@ -1,6 +1,7 @@
 # Naixiang(Gabriel) Gao Development Log
 1. [Motor Selection](#MotorSelection)
 2. [Establish Physical Model](#PhysicalModel)
+3. [Reference](#Reference)
 
 # Motor Selection <a id="MotorSelection"></a>
 ## Wheel Motors
@@ -93,4 +94,8 @@ $$
 
 
 ### Body Force Analysis
+
+
+# Reference <c id="Reference"></c>
+[1] 韭菜的菜. (2022, September 10). RoboMaster平衡步兵机器人控制系统设计. ZhiHu. https://zhuanlan.zhihu.com/p/563048952 
 
