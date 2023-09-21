@@ -1,9 +1,9 @@
 # Naixiang(Gabriel) Gao Development Log
-1. [Motor Selection](#MotorSelection)
-2. [Establish Physical Model](#establish-physical-model-)
+1. [Motor Selection](#motor-selection)
+2. [Establish Physical Model](#establish-physical-model)
 3. [Reference](#reference)
 
-# Motor Selection <a id="MotorSelection"></a>
+# Motor Selection
 ## Wheel Motors
 1. **Better for direct drive motor(withour gearbox).**
 2. **Output torque should be approximately linear and be stable at the low speed.**
@@ -18,7 +18,7 @@ The reason is that we want to use this motor as a "torque controller", which can
 
 The reason is that we want the motor can receive and send the data or signal when we have instantaneous large torque. The instantaneous large torque will lead the instantaneous large power, which might interfere with the data signal. When we use the motor to output a large torque, we need to ensure its excellent heat dissipation to avoid burn it. When the robot is descending stairs, we need to have enough torque to counter the falling momentum of the robot.
 
-# Establish Physical Model <b id="PhysicalModel"></b>
+# Establish Physical Model
 ## Assumption
 To simplify the model of the wheeled-legged robot, we can use a wheel, a rod and a body box to represent the whole robot rather than use five link model. 
 ## Abstract Model
@@ -105,5 +105,5 @@ $$
 ### Body Force Analysis
 
 
-# Reference <c name="reference"></c>
+# Reference
 
