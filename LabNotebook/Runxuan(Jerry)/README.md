@@ -24,7 +24,8 @@ Example:
 <img src="../../image/Jerry_dev_log/SPI_example.png" alt="SPI" width="1051" height="187"/>
 
 # PCB Design - Preliminary
-<img src="../../image/Jerry_dev_log/schematics.jpeg" alt="SPI" width="1169" height="827"/>
+<!-- <img src="../../image/Jerry_dev_log/schematics.jpeg" alt="SPI" width="1169" height="827"/> -->
+![PCB_design](../../image/Jerry_dev_log/schematics.jpeg)
 
 Our development board is based on a STM32F103C8T6 chip. The board uses a CAN bus, two USARTs, an SPI, a I2C, and a USB. 
 
