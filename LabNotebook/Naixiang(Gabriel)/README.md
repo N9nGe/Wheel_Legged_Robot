@@ -27,9 +27,9 @@ To simplify the model of the wheeled-legged robot, we can use a wheel, a rod and
 
 |**Variables** |                                                             |            |  
 |---           |---                                                          |---         |
-|**Label**     |**Meaning**                                                 |**Unit**    |
+|**Label**     |**Meaning**                                                  |**Unit**    |
 |$x$           |The displacement of the wheel                                |$m$         |  
-|$\theta$      |The angle between rod and the wheel                          |$rad$       |
+|$\theta$      |The angle between rod and the vertical axis                  |$rad$       |
 |$\phi$        |The angle between the body and the horizontal axis           |$rad$       |
 |$\alpha$      |The angle between the body and the vertical axis             |$rad$       |
 |$T$           |The output torque of the wheel motors                        |$N\cdot m$  |
@@ -42,7 +42,7 @@ To simplify the model of the wheeled-legged robot, we can use a wheel, a rod and
 
 |**Parameters**|                                                                                      |                |  
 |---           |---                                                                                   |---             |
-|**Label**     |**Meaning**                                                                          |**Unit**        |
+|**Label**     |**Meaning**                                                                           |**Unit**        |
 |$R$           |The radius of the wheel                                                               |$m$             |  
 |$L$           |The distance between rod's center of gravity and the rotation axis of the wheel motor |$m$             |
 |$L_m$         |The distance between rod's center of gravity and the rotation axis of the leg motor   |$m$             |
