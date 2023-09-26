@@ -181,7 +181,7 @@ I_y \ddot{\theta} &= T_P - T_N - (T_L+T_R) \tag{12}
 \end{align}
 $$
 
-Combining the formula (9), (10), (11), (12), we can eliminate $N_L, N_R, P_L, P_R, T_N, T_P$.
+Combining the formula (9), (10), (11), (12), we can eliminate $N_L, N_R, P_L, P_R, T_N, T_P$ to get the complete motion model of the body.
 
 $$
 \begin{align}
@@ -190,6 +190,33 @@ I_y \ddot{\theta} &= Mg * lsin(\theta) - M\ddot{x} * l cos(\theta) - Ml^2\ddot{\
 \end{align}
 $$
 
+Combine the formula (6) and (9), we can eliminate $N_L, N_R$ to get the complete motion model of the wheels.
+
+$$
+\begin{align}
+(\frac{2I_w}{R^2} + 2m)\ddot{x} &= \frac{T_L + T_R}{R} - M\ddot{x} - M * lcos(\theta)\ddot{\theta} + M * l sin(\theta)\dot{\theta}^2 \\
+
+(\frac{2I_w}{R^2} + 2m + M)\ddot{x} &= \frac{T_L + T_R}{R} - M * lcos(\theta)\ddot{\theta} + M * l sin(\theta)\dot{\theta}^2 \tag{14}
+
+\end{align}
+$$
+
+When the robot can keep balance at steady state by changing a tiny pitch angle($\theta$), we can linearlize the parameters.
+
+$$
+cos(\theta) = 1, \quad sin(\theta) = \theta, \quad \dot{\theta}^2 = 0 \tag{15}
+$$
+
+By plug (15) into (13) and (14), we can get the system of equations
+
+$$
+\begin{equation}
+\left\{\begin{split}
+(\frac{2I_w}{R^2} + 2m + M)\ddot{x} &=  \frac{T_L + T_R}{R} - M l\ddot{\theta}\\
+(I_y + Ml^2) \ddot{\theta} &= Mg l\theta - M\ddot{x}l - (T_L+T_R) \\ 
+\end{split}\right.
+\end{equation}
+$$
 
 # Reference
 
