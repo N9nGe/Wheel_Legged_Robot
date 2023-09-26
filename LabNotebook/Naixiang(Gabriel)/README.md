@@ -126,7 +126,6 @@ $$
     \ddot{x} &= \frac{\ddot{x_L} + \ddot{x_R}}{2} \\
     \ddot{x} &= \frac{\frac{T_L - N_LR + T_R - N_RR}{\frac{I_w}{R} + m R}}{2} \\
     \ddot{x} &= \frac{T_L + T_R - (N_L + N_R)R}{2(\frac{I_w}{R} + m R)} \tag{6}\\
-
 \end{align}
 $$
 
@@ -139,8 +138,8 @@ We can decomposition the velocity of the body into horizontal and vertical direc
 
 $$
 \begin{align}
-v_x &= \frac{\partial}{\partial t}(x + l*sin(\theta)) = \dot{x} + l*cos(\theta)\dot{\theta} \tag{7}\\
-v_z &= \frac{\partial}{\partial t}(l - l*cos(\theta)) = l*sin(\theta)\dot{\theta} \tag{8}
+    v_x &= \frac{\partial}{\partial t}(x + lsin(\theta)) = \dot{x} + l* cos(\theta)\dot{\theta} \tag{7}\\
+    v_z &= \frac{\partial}{\partial t}(l - l * cos(\theta)) = l * sin(\theta) * \dot{\theta} \tag{8}
 \end{align}
 $$
 
@@ -149,8 +148,8 @@ $$
 $$
 \begin{align}
 F_{net} &= ma \\
-N_L + N_R &= M \dot{v_x}\\
-N_L + N_R &= M (\ddot{x} + l*cos(\theta)\ddot{\theta} - l*sin(\theta)\dot{\theta}^2) \tag{9}
+N_L + N_R &= M \dot{v_x} \\
+N_L + N_R &= M (\ddot{x} + l* cos(\theta)\ddot{\theta} - l* sin(\theta)\dot{\theta}^2) \tag{9}
 \end{align}
 $$
 
@@ -160,7 +159,7 @@ $$
 \begin{align}
 F_{net} &= ma \\
 Mg - (P_L + P_R) &= M \dot{v_z}\\
-P_L + P_R &= Mg - M (l*sin(\theta)\ddot{\theta} + l*cos(\theta)\dot{\theta}^2) \tag{10} 
+P_L + P_R &= Mg - M (l* sin(\theta)\ddot{\theta} + l*cos(\theta)\dot{\theta}^2) \tag{10} 
 \end{align}
 $$
 
@@ -169,7 +168,7 @@ By applying $N_L + N_R$ and $P_L + P_R$ to the body, we can get $T_N$ and $T_P$.
 
 $$
 \begin{align}
-T_N = (N_L + N_R)*l*cos(\theta), \quad T_P = (P_L + P_R)*l*sin(\theta) \tag{11}
+T_N = (N_L + N_R)* l* cos(\theta), \quad T_P = (P_L + P_R)* l *sin(\theta) \tag{11}
 \end{align}
 $$
 
@@ -186,7 +185,7 @@ Combining the formula (9), (10), (11), (12), we can eliminate $N_L, N_R, P_L, P_
 
 $$
 \begin{align}
-I_y \ddot{\theta} &= Mg*lsin(\theta) - M\ddot{x}*lcos(\theta) - Ml^2\ddot{\theta} - (T_L+T_R)\\
+I_y \ddot{\theta} &= Mg * lsin(\theta) - M\ddot{x} * l cos(\theta) - Ml^2\ddot{\theta} - (T_L+T_R)\\
 (I_y + Ml^2) \ddot{\theta} &= Mg*lsin(\theta) - M\ddot{x}*lcos(\theta) - (T_L+T_R) \tag{13}
 \end{align}
 $$
