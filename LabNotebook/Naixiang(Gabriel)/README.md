@@ -20,55 +20,62 @@ The reason is that we want the motor can receive and send the data or signal whe
 
 # Establish Physical Model
 ## Assumption
-To simplify the model of the wheeled-legged robot, we can use a wheel, a rod and a body box to represent the whole robot rather than use five link model. 
-## Abstract Model
-![Abstract_model](../../image/abstract_model.png)
-### Variable and Parameter Declaration 
+To simplify the model of the wheeled-legged robot, we can split the complex motion into wheel motion and leg motion. Wheel motion should include planar motion(balance in stationary state, and move forward and backward) and rotation motion. Leg motion include height adjustment and jumping. 
 
-|**Variables** |                                                             |            |  
-|---           |---                                                          |---         |
-|**Label**     |**Meaning**                                                  |**Unit**    |
-|$x$           |The displacement of the wheel                                |$m$         |  
-|$\theta$      |The angle between rod and the vertical axis                  |$rad$       |
-|$\phi$        |The angle between the body and the horizontal axis           |$rad$       |
-|$\alpha$      |The angle between the body and the vertical axis             |$rad$       |
-|$T$           |The output torque of the wheel motors                        |$N\cdot m$  |
-|$T_p$         |The output torque of the leg motors                          |$N\cdot m$  |
-|$N$           |The horizontal component of the force from wheel to the rod  |$N$         |
-|$N_M$         |The horizontal component of the force from rod to the body   |$N$         |
-|$P$           |The vertical component of the force from wheel to the rod    |$N$         |
-|$P_M$         |The vertical component of the force from rod to the body     |$N$         |
-|$N_f$         |The friction of the wheel when moving                        |$N$         |
+## Variable and Parameter Declaration 
+
+|**Variables** |                                                                                            |            |  
+|---           |---                                                                                         |---         |
+|**Label**     |**Meaning**                                                                                 |**Unit**    |
+|$x_L, x_R$    |The displacement of the left and right wheels                                               |$m$         |  
+|$y$           |The distance between the body's center of mass and wheel motor rotation axis along y axis   |$m$         |
+|$\phi$        |The roll angle of the body                                                                  |$rad$       |  
+|$\theta$      |The pitch angle of the body                                                                 |$rad$       |
+|$\psi$        |The yaw angle of the body                                                                   |$rad$       |
+|$T_L, T_R$    |The output torque of the left and right wheel motors                                        |$N\cdot m$  |
+|$T$           |The output torque of the leg motors                                                         |$N\cdot m$  |
+|$N_L, N_R$    |The horizontal component of the force between wheels and the body (along x axis)            |$N$         |
+|$P_L, P_R$    |The vertical component of the force between wheels and the body (along y axis)              |$N$         |
+|$F_L, F_R$    |Th e frictions of the wheels when moving                                                    |$N$         |
 
 |**Parameters**|                                                                                      |                |  
 |---           |---                                                                                   |---             |
 |**Label**     |**Meaning**                                                                           |**Unit**        |
-|$R$           |The radius of the wheel                                                               |$m$             |  
-|$L$           |The distance between rod's center of gravity and the rotation axis of the wheel motor |$m$             |
-|$L_m$         |The distance between rod's center of gravity and the rotation axis of the leg motor   |$m$             |
-|$l$           |The distance between body's center of gravity and the rotation axis of the leg motor  |$m$             |
-|$m_w$         |The mass of rotor in the wheel motors                                                 |$kg$            |
-|$m_p$         |The mass of the rod                                                                   |$kg$            |
+|$m$         |The mass of rotor in the wheel motors                                                 |$kg$            |
 |$M$           |The mass of the body                                                                  |$kg$            |
 |$I_w$         |The moment of inertia of rotor in the wheel motors                                    |$kg\cdot m^2$   |
-|$I_p$         |The moment of inertia of the rod rotated around the center of mass                    |$kg\cdot m^2$   |
-|$I_M$         |The moment of inertia of the body rotated around the center of mass                   |$kg\cdot m^2$   |
+|$I_x$         |The moment of inertia of the body rotated around the x axis                           |$kg\cdot m^2$   |
+|$I_y$         |The moment of inertia of the body rotated around the y axis                           |$kg\cdot m^2$   |
+|$I_y$         |The moment of inertia of the body rotated around the z axis                           |$kg\cdot m^2$   |
+|$R$           |The radius of the wheel                                                               |$m$             |  
+|$L$           |The distance between body's center of mass and the rotation axis of the wheel motor   |$m$             |
+|$D$           |The distance between left and right wheels                                            |$m$             |
+|$g$           |The acceleration due to the gravity measured                                          |$m/s^2$         |
 
-## Classical Mechanical Analysis
+## Classical Mechanical Analysis for Wheel Motion
 (**NOTE:** If you use the Lagrange equation, you can get the same equations in the below part)
 
-### Wheel Force Analysis
-Because the wheel will not move in vertical axis, the net force in vertical axis should eliminate with each other.
+### Assumption
+1. The mass of the body can be represented at the center of the mass.
+2. Ignore the mass of led linkage and the effect on wheel motion from leg movement.
+3. No sliding on the wheels.
+
+### Planar Motion Analysis 
+***Simplified Planar Motion Model***
+![Planar Motion](../../image/Gabriel_dev_log/WheelMovement_Kinematic_Model.jpg "")
+
+**Move Forward and Backward**
+
+![Wheel Motion](../../image/Gabriel_dev_log/wheel_model.jpg)
 
 **For the net force:**
 
-**Define $F_l$ is the force from rod to the wheel -> $F_l*cos(theta) = -N$**
+Because we suppose the rotation for the left and right wheel motors is almost the same, we will use left wheel motor to do the calculation.
 
 $$
 \begin{align}
-F &= ma \\
-N_f + F_l*cos(theta) &= m_w \ddot{x} \\
-N_f - N &= m_w \ddot{x} \tag{1}
+F_{net} &= ma \\
+F_L - N_L &= m \ddot{x_L}  \tag{1}
 \end{align}
 $$
 
@@ -77,18 +84,18 @@ $$
 
 $$
 \begin{align}
-T &= I\alpha \\
-T - N_f * R &= I_w \frac{\ddot{x}}{R} \tag{2}\\
+\Tau &= I\alpha \\
+T_L - F_L * R &= I_w \frac{\ddot{x_L}}{R} \tag{2}
 \end{align}
 $$
 
-**Combine equation (1) and (2), we can eliminate $N_f$**
+**Combine equation (1) and (2), we can eliminate $F_L$**
 
 According (1):
 
 $$
 \begin{align}
-N_f = m_w \ddot{x} + N \tag{3}
+F_L = m \ddot{x_L} + N_L 
 \end{align}
 $$
 
@@ -96,10 +103,10 @@ Plug (3) into (2):
 
 $$
 \begin{align}
-T - (m_w \ddot{x} + N)* R &= I_w \frac{\ddot{x}}{R}\\
-T - NR - m_wR\ddot{x} &= I_w \frac{\ddot{x}}{R}\\
-(\frac{I_w}{R} + m_w R)\ddot{x} &= T - NR\\
-\ddot{x} &= \frac{T - NR}{\frac{I_w}{R} + m_w R} \tag{4}
+T_L - (m \ddot{x_L} + N_L)* R &= I_w \frac{\ddot{x_L}}{R}\\
+T_L - N_LR - mR\ddot{x_L} &= I_w \frac{\ddot{x_L}}{R}\\
+(\frac{I_w}{R} + m R)\ddot{x_L} &= T_L - N_LR\\
+\ddot{x_L} &= \frac{T_L - N_LR}{\frac{I_w}{R} + m R} 
 \end{align}
 $$
 
