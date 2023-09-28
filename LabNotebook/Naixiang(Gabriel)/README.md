@@ -235,6 +235,7 @@ $$
 $$
 
 **Plug equation (18) and (19) into equation (6), we can eliminate $N_L$ and $N_R$ :**
+
 $$
 \begin{align}
 \ddot{\psi} &= \frac{T_L - T_R}{R(\frac{2I_z}{D} + \frac{I_wD}{R^2} + mD)} \tag{20}
