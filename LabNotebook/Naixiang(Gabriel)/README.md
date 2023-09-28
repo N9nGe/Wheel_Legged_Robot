@@ -234,7 +234,7 @@ $$
 \end{align}
 $$
 
-**Plug equation (18) and (19) into equation (6), we can eliminate $N_L$ and $N_R$ :**
+**Plug equation (18) and (19) into equation (4) and (5), we can eliminate $N_L$ and $N_R$ :**
 
 $$
 \begin{align}
