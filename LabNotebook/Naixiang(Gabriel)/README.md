@@ -41,7 +41,7 @@ To simplify the model of the wheeled-legged robot, we can split the complex moti
 |**Parameters**|                                                                                      |                |  
 |---           |---                                                                                   |---             |
 |**Label**     |**Meaning**                                                                           |**Unit**        |
-|$m$         |The mass of rotor in the wheel motors                                                 |$kg$            |
+|$m$           |The mass of rotor in the wheel motors                                                 |$kg$            |
 |$M$           |The mass of the body                                                                  |$kg$            |
 |$I_w$         |The moment of inertia of rotor in the wheel motors                                    |$kg\cdot m^2$   |
 |$I_x$         |The moment of inertia of the body rotated around the x axis                           |$kg\cdot m^2$   |
@@ -64,7 +64,7 @@ To simplify the model of the wheeled-legged robot, we can split the complex moti
 ***Simplified Planar Motion Model***
 ![Planar Motion](../../image/Gabriel_dev_log/WheelMovement_Kinematic_Model.jpg "")
 
-**Move Forward and Backward**
+### Move Forward and Backward
 
 ![Wheel Motion](../../image/Gabriel_dev_log/wheel_model.jpg)
 
@@ -129,7 +129,7 @@ $$
 \end{align}
 $$
 
-**Body Balance in Stationary State**
+### Body Balance in Stationary State
 ![body Model](../../image/Gabriel_dev_log/body_model.jpg)
 
 We suppose the force can be move to body's center of mass by convention.
@@ -211,6 +211,33 @@ $$
 \begin{align}
 (\frac{2I_w}{R^2} + 2m + M)\ddot{x} &=  \frac{T_L + T_R}{R} - M l\ddot{\theta} \tag{16}\\
 (I_y + Ml^2) \ddot{\theta} &= Mg l\theta - M\ddot{x}l - (T_L+T_R)  \tag{17}\\ 
+\end{align}
+$$
+
+### Rotation Motion
+![Rotation](../../image/Gabriel_dev_log/wheel_rotation_model.jpg)
+
+**For the net torque along z axis**
+
+$$
+\begin{align}
+\tau &= I\alpha \\
+I_z \ddot{\psi} &= \frac{D}{2}(N_L - N_R) \tag{18}
+\end{align}
+$$
+
+**The relationship between the yaw angular acceleration and left and right wheel acceleration is:**
+
+$$
+\begin{align}
+\ddot{\psi} &= \frac{\ddot{x_L} - \ddot{x_R}}{2} \tag{19}
+\end{align}
+$$
+
+**Plug equation (18) and (19) into equation (6), we can eliminate $N_L$ and $N_R$ :**
+$$
+\begin{align}
+\ddot{\psi} &= \frac{T_L - T_R}{R(\frac{2I_z}{D} + \frac{I_wD}{R^2} + mD)} \tag{20}
 \end{align}
 $$
 
