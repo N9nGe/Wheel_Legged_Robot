@@ -70,3 +70,51 @@ Both USART are set to asynchronous mode, with a baud rate of 115200, word length
 ### TODOS:
 * Check details with DJI TypeC Board
 * Add push button
+
+# Progress update (October 6)
+
+The entire schematics is transferred to JLC EDA as its library is more complete and the stock of each component is visable. The connectors are separated into a different page for clarity.
+
+![](../../image/Jerry_dev_log/schematic_1004.png)
+
+![](../../image/Jerry_dev_log/connectors.png)
+
+The initial PCB layout without routing is below.
+
+![](../../image/Jerry_dev_log/pcb_1004.png)
+
+TODOs:
+* Add reverse-polarity protection?
+* Add test points (especially each signal of the IMU because of its BGA package)
+* Add gaps around the IMU to insulate it
+* Check if UART and SWD need extra circuits
+* confirm LED color
+* check diode connection
+* check via across CAN
+
+Two GPIO LEDs are added and both are active low (the two corresponding pins are internal pull-up, meaning that outputing 0 lights up the LEDs). One GPIO button is added and it's also active low (the pin is internal pull-up, meaning that pushing the button gives 0)
+
+Before placing each component, it's a good idea to look at the chip assignment in STM32CubeIDE to determine the placement of each section. For example, if the IMU signals are on the left of the chip, we should place the IMU at the left of the chip so the wires don't need to go all the way across the board.
+
+# Progress update (October 13)
+
+The PCB routing is finished. It's quite challenging to layout all components and their wires in a two layer board. There are several design considerations when I was laying out the board. One thing is that I group the power circuit to one part (bottom right corner) of the circuit so it is not spread aross the entire board and make routing difficult. 
+
+![](../../image/Jerry_dev_log/pcb_final.png)
+
+I placed the IMU in an isolated area (top left corner) to minimize it being affected by the heat from other circuits. The IMU is a MEMS (micro-electromechanical system) device, which contains tiny mechanical components that determine its angular velocity and acceleration. This means that a change in temperature can affect the device due to the expansion/contraction of the small mechanical structures, causing inaccurate measurements. I've seen several other board designs that insulates the IMU. For example, one design provides padding below the IMU so its further away from the board; another design carves out the board surrounding the IMU, with thin bridges holding it in place; a more impressive design employs a heater circuit to heat the IMU to a constant temperature. Considering that this is my first board design, I decided to keep in simple, but I might try some of these designs for the next generation. 
+
+![](../../image/Jerry_dev_log/pcb_render.png)
+
+The figure above shows the final design of the board. This board will work with another power board designed by Tony. The power board can convert the battery voltage from 24V to 5V and 3.3V, which are supplied to my board through two giant xt30 plugs in the center. The power board can stack onto my development board seamlessly. The reason behind this design is that we want to isolate the development board from high voltage and protect it from a short circuit. Even so, my board is still functional on itself by powering it though the USB Type-C plug, meaning that I can test the board easily without the need of connecting it to a battery.
+
+By this time the board is purchased from Pcbway. To get the components for the two boards, I first went through the BOM (Bill of Materials) of each board and check if any components are available in the electronics service shop. Those that are not available will be purchased from DigiKey. Going through all components is an exhausting process, especially when many components we chose have different names than the JLC shop. It is also important to make sure that the compnents have the same footprint or package from the ones in the design.
+
+![](../../image/Jerry_dev_log/BOM.png)
+
+
+# Progress update (October 20)
+
+The plan for this week is to use a STM32F1 Nucleo board to test some basic functionalities while waiting for the boards and components to arrive. I configure the Nucleo board and tested a simple LED program. The next step is to configure our own environment and make sure the code works there as well.
+
+![](../../image/Jerry_dev_log/nucleo.jpg)
