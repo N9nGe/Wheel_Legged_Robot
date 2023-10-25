@@ -108,13 +108,16 @@ I placed the IMU in an isolated area (top left corner) to minimize it being affe
 
 The figure above shows the final design of the board. This board will work with another power board designed by Tony. The power board can convert the battery voltage from 24V to 5V and 3.3V, which are supplied to my board through two giant xt30 plugs in the center. The power board can stack onto my development board seamlessly. The reason behind this design is that we want to isolate the development board from high voltage and protect it from a short circuit. Even so, my board is still functional on itself by powering it though the USB Type-C plug, meaning that I can test the board easily without the need of connecting it to a battery.
 
-By this time the board is purchased from Pcbway. To get the components for the two boards, I first went through the BOM (Bill of Materials) of each board and check if any components are available in the electronics service shop. Those that are not available will be purchased from DigiKey. Going through all components is an exhausting process, especially when many components we chose have different names than the JLC shop. It is also important to make sure that the compnents have the same footprint or package from the ones in the design.
+By this time the board is purchased from Pcbway. To get the components for the two boards, I first went through the BOM (Bill of Materials) of each board and check if any components are available in the electronics service shop. Those that are not available will be purchased from DigiKey. Going through all components is an exhausting process, especially when many components we chose have different names than the JLC shop. It is also important to make sure that the components have the same footprint or package from the ones in the design.
 
 ![](../../image/Jerry_dev_log/BOM.png)
 
+The above figure shows the BOM of the two boards. The ones in bold are available in the electronics service shop. Those in red are available from DigiKey and the ones in orange are from other sources. 
 
 # Progress update (October 20)
 
 The plan for this week is to use a STM32F1 Nucleo board to test some basic functionalities while waiting for the boards and components to arrive. I configure the Nucleo board and tested a simple LED program. The next step is to configure our own environment and make sure the code works there as well.
 
 ![](../../image/Jerry_dev_log/nucleo.jpg)
+
+Writing a simple LED flashing program is easy. 
