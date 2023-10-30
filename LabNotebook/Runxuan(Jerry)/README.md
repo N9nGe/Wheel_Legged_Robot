@@ -120,4 +120,51 @@ The plan for this week is to use a STM32F1 Nucleo board to test some basic funct
 
 ![](../../image/Jerry_dev_log/nucleo.jpg)
 
-Writing a simple LED flashing program is easy. 
+![](../../image/Jerry_dev_log/cmsis.png)
+
+ARM developed the Cortex Microcontroller Software Interface Standard (CMSIS) that provides a programming interface to ARM Cortex-M microcontrollers. The Hardware Abstraction Layer (HAL) provides a high-level API that allows easier access to the hardware layer. In our case, the HAL is provided by the chip manufacturer, STMicroelectronics. 
+
+We can write a simple LED flashing program by pulling the gpio pin corresponding to the LED high or low with a time interval between. This can be written in the main for loop in main.c. However, for more complicated application, we need a Real Time Operating System (RTOS). This allows us to create multiple threads on a single core, where the RTOS's scheduler is responsible for switching tasks, scheduling, etc. The RTOS kernel we are using is FreeRTOS, a very popular open source RTOS kernel. However, we are not directly using the APIs from FreeRTOS. Instead, we are using the CMSIS-RTOS library developed by ARM, which acts as an abstraction layer to FreeRTOS, as shown in the figure above. Different to FreeRTOS, CMSIS-RTOS refers to each job as thread instead of task. I will use these two terms interchangeably.
+
+The CMSIS-RTOS v2 API can be found here: https://www.keil.com/pack/doc/CMSIS/RTOS2/html/group__CMSIS__RTOS.html
+
+We can define and create the threads as shown below, where we specify their attributes such as name, stack size, and priority. 
+
+![](../../image/Jerry_dev_log/thread_def.png)
+
+![](../../image/Jerry_dev_log/thread_creation.png)
+
+The priority is an attribute that we can use to specify the importance of each task. A task with higher priority can preempt a task with lower priority. For example, our task that controls the chassis motor need to respond quickly to stabilize the motor, meaning that it definitely needs a higher priority than a LED blinking task. 
+
+![](../../image/Jerry_dev_log/rtos_ex.png)
+
+# Progress update (October 27)
+
+Building and running the LED examples in the STM32CubeIDE was working. In this week, I was working on building our own environment so we can compile our programs using Make. I encountered a lot of issues when writing our CMakeList, such as not linking library files correctly. Our PCB parts will likely arrive next week and I will work on soldering our boards. 
+
+## Notes on CMakeList
+target_link_libraries(${PROJECT_NAME}_interface INTERFACE board_interface)
+
+${PROJECT_NAME}_interface: This is the target you're specifying libraries (or other targets) for.
+INTERFACE: This is a keyword that specifies the "link type". In CMake, you have three primary keywords for this purpose:
+PRIVATE: This means the linked libraries/targets are used by this target and are not propagated to targets that link to this target.
+PUBLIC: This means the linked libraries/targets are used by this target and are propagated to targets that link to this target.
+INTERFACE: This means the linked libraries/targets are not used by this target itself but are propagated to any targets that link to this target.
+board_interface: This is the library or target you're linking against.
+
+When you link another target (let's call it some_target) to ${PROJECT_NAME}_interface, that some_target will also inherit the link dependency on board_interface, even though ${PROJECT_NAME}_interface itself doesn't directly link against board_interface.
+
+This is useful for header-only libraries or when you want to propagate compile definitions, compile options, or include directories without actually linking a library.
+
+So, essentially, this command sets up a transitive relationship: anything that links to ${PROJECT_NAME}_interface will also need to consider board_interface, but ${PROJECT_NAME}_interface itself doesn't directly utilize board_interface for its own build/linking process.
+
+
+## Bug log
+- compilation error due to not adding the new board's library in the "shared" directory's CMakeList
+- compilation error due to core library files such as can.h, spi.h, and usart.h are not found. Solved by ticking the "generate peripheral initialization as a pair of '.c/.h' files per peripheral" option in CubeMX.
+- compilation error due to arm_math.h not found. This is because the DSP library is not added to the project
+- millions of compilation error due to ARM_MATH_CM3 not added in the compile definitions
+- compilation error of usbd_cdc.h and dma.h not found. Solved by adding usb in board CMakeList and turning on dma for spi
+- /Users/jerrywang/Documents/iRM_Embedded_2023_2/shared/bsp/bsp_can.cc:71:57: error:'HAL_CAN_RX_FIFO0_MSG_PENDING_CB_ID' was not declared in this scope; did you mean 'CAN_IT_RX_FIFO0_MSG_PENDING'?
+
+# Progress update (November 3)
