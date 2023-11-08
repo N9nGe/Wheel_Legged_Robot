@@ -165,6 +165,32 @@ So, essentially, this command sets up a transitive relationship: anything that l
 - compilation error due to arm_math.h not found. This is because the DSP library is not added to the project
 - millions of compilation error due to ARM_MATH_CM3 not added in the compile definitions
 - compilation error of usbd_cdc.h and dma.h not found. Solved by adding usb in board CMakeList and turning on dma for spi
-- /Users/jerrywang/Documents/iRM_Embedded_2023_2/shared/bsp/bsp_can.cc:71:57: error:'HAL_CAN_RX_FIFO0_MSG_PENDING_CB_ID' was not declared in this scope; did you mean 'CAN_IT_RX_FIFO0_MSG_PENDING'?
+- /Users/jerrywang/Documents/iRM_Embedded_2023_2/shared/bsp/bsp_can.cc:71:57: error:'HAL_CAN_RX_FIFO0_MSG_PENDING_CB_ID' was not declared in this scope; did you mean 'CAN_IT_RX_FIFO0_MSG_PENDING'? --> This is because I need to set the "USE_HAL_CAN_REGISTER_CALLBACKS" flag to 1 in stm32f1xx_hal_conf.h. I also need to do the same for SPI, TIM, and UART. (All includes are in main.h) --> the macro gets rewritten to 0 everytime I generate code. Therefore, I need to set the register callbacks permanently in the advanced settings in stm32cubemx. 
+![](../../image/Jerry_dev_log/hal_callback.png)
 
 # Progress update (November 3)
+
+## Timer
+
+When configurating the timer, we can use the prescaler and the counter period to get the frequency we want. We can first check which bus is our timer connected to in the stm32f103c8 document. In our case, we are using the TIM3, which is connected to the APB1 bus. We can find the frequency of the timer corresponding to APB1 in the clock configuration page of STM32CubeIDE, which is 8 MHz. 
+
+![](../../image/Jerry_dev_log/stm32f1_block.png)
+
+![](../../image/Jerry_dev_log/tim_freq.png)
+
+Suppose we want to set the timer to 100 Hz, We can use the Prescaler and the Counter Period in the timer settings. 8 MHz divides by 800 (prescaler) and 100 (counter period) gives us 10 Hz. Note that we are subtracting 1 from each because later these values are added by 1 in somewhere else. The timer can be used as a PWM signal to control the brightness of an LED or the rpm of a motor. 
+
+![](../../image/Jerry_dev_log/tim_param.png)
+
+## PCB update
+Our PCB parts have finally arrived. Some parts are purchased with a wrong size but they are not the crucial parts, so we can still test the board without them. We ordered a stencil so we can use the reflow oven to solder all of our parts. The result was quite good, and we only need to fix some bridgings at the MCU. Before I supply power to the board, I thorougly checked possible shorts on the board. It was crucial to check the BMI088 IMU because it is a BGA component and I can't see if there are bridgings underneath the chip. Fortunately, I included test points for each pin of the IMU so I can easily test them with a multimeter. This check proved useful because on one board I found that two IMU pins are bridged, so I can resolder it before I power it on. 
+
+![](../../image/Jerry_dev_log/pcb.png)
+
+In my design stage I included two LEDs and two buttons to test GPIO input and output. To check if the MCU is working, checking the basic GPIO input and output functionality is a good place to start. I loaded a LED flashing program onto the board and it worked staright away. It felt great that my first board is functional. 
+
+I made some small changes to the board and ordered another round of PCB. One change is that I removed the spdt switch connected to the BOOT pin of the MCU. The switch was originally designed to enter the boot mode when flashing firmware onto the board through USB. However, I decided to use the USB as a pure power input because we can already program and debug through the serial wire debug (SWD) port. Now the BOOT pin is always pulled to low so the MCU is always in non-boot mode.I also rearranged the connectors a bit so there is more space around the mounting holes to place the screw. Removing the switch also helped increasing the space.
+
+![](../../image/Jerry_dev_log/pcb_new.png)
+
+The next step is to do more tests on the board, especially the CAN and SPI peripherals. I would also need to write the drivers for each of them before the board is fully functional. 
