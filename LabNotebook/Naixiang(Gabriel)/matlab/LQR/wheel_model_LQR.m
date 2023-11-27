@@ -2,10 +2,10 @@ clc
 clear
 % model parameter Initialization
 m=0.174;                     %wheel mass
-M=3.848;                       %body mass
+M=3.088;                       %body mass
 r=0.03;              %wheel redius
 I=1.4741*10^(-4);        %wheel moment of inertia
-l=0.152;             %The distance between the body’s center of mass and the rotation axis of the wheel motor
+l=0.05;             %The distance between the body’s center of mass and the rotation axis of the wheel motor
 Jy=3.7049207*10^(-2);      %The moment of inertia of the body rotated around the y-axis.
 g=9.81;                     %The acceleration due to the gravity measured.
 D=0.3504;             %The distance between the left and right wheels.
@@ -59,5 +59,5 @@ Q=[1   0     0    0      0     0;
 R=[1500 0;0 1500];                     %R matrix
 K=lqr(A,B,Q,R);                        
 
-V=1;      % target speed (max 1m/s)
+V=0.5;      % target speed (max 1m/s)
 Yaw=0;  % target yaw (max pi/6 rad)
