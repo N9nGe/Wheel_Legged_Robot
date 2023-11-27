@@ -194,3 +194,107 @@ I made some small changes to the board and ordered another round of PCB. One cha
 ![](../../image/Jerry_dev_log/pcb_new.png)
 
 The next step is to do more tests on the board, especially the CAN and SPI peripherals. I would also need to write the drivers for each of them before the board is fully functional. 
+
+CHECK the NVIC settings:
+
+![](../../image/Jerry_dev_log/nvic.png)
+
+## Nov 14
+- I can get feedback from the IMU through polling mode but not interrupt mode. Interrupt mode is essential because polling takes too much CPU resources.
+
+## Nov 18
+- IMU now works in interrupt mode. I separated LED and imu into two separate tasks. 
+
+## Nov 21
+- Testing the Mahony filter for sensor fusion. The Euler angles outputed by the filter seems to converge very slow.
+
+# The Mahony Filter
+The Mahony filter is a popular algorithm used for fusing data from accelerometers and gyroscopes to estimate orientation, particularly in the context of Inertial Measurement Units (IMUs). This filter is known for its simplicity and efficiency, making it suitable for real-time applications in embedded systems.
+
+## Basic Principles
+Gyroscope Data: The gyroscope measures the rate of rotation around the device's axes. This data is used to predict the device's orientation over time, but it can drift due to integration of gyro errors over time.
+
+Accelerometer Data: The accelerometer measures linear acceleration, including gravity. When the device is not undergoing linear acceleration (other than gravity), the accelerometer data can be used to estimate the direction of gravity in the device's frame of reference.
+
+Sensor Fusion: The Mahony filter combines these two data sources to provide a more accurate estimate of orientation. It corrects the drift from the gyroscope data using the accelerometer data, which provides a reference to the direction of gravity.
+
+## Algorithm
+Integration of Gyroscope Data: The filter first integrates the angular rate measurements from the gyroscope over time to estimate the orientation. This orientation is subject to drift due to accumulating errors in the gyro data.
+
+Accelerometer Correction: The filter then uses the accelerometer data to obtain an estimate of the gravitational vector in the device's frame of reference. This estimate is used to correct the drift in the gyroscope-based orientation estimate.
+
+Error Estimation: The Mahony filter calculates the error between the estimated gravity direction (from the integrated gyroscope data) and the measured gravity direction (from the accelerometer).
+
+Feedback Loop: This error is then fed back into the system to adjust the gyroscope integration in the next iteration, effectively reducing the drift.
+
+Tuning: The filter includes parameters that can be tuned to balance the responsiveness of the filter to gyroscope and accelerometer data. These parameters control how quickly the filter corrects the gyroscope drift based on the accelerometer data.
+
+## Nov 22
+- Fixed slow convergence issue of the Mahony filter. The cause of the issue was that I used an incorrect sampling frequency.
+- changing to external clock source because the internal one isn't enough for CAN transmission.
+- integated DSP library into my project
+- debugging CAN
+
+---
+**Issue log:**
+- FLASH overflow: used compiler optimization flag -0s to solve the issue
+
+Note: to put files in other directories, add the include directory and makes it a **workspace path**. Then add the source directory.
+
+![](../../image/Jerry_dev_log/include_dir.png)
+
+![](../../image/Jerry_dev_log/source_dir.png)
+
+## Nov 23
+- CAN transmition works but receive not working yet.
+
+# USART interrupt
+
+I'm using DMA interrupt for USART transmit and receive. To handle global interrupt, I'm using a custom interrupt handler (RM_UART_IRQHandler), which calls a wrapper function that processes the received data.
+
+![](../../image/Jerry_dev_log/usart_irq.png)
+
+![](../../image/Jerry_dev_log/usart_irq_handler.png)
+
+## Nov 24
+- CAN receive works now
+- tested concurrent operation of three RTOS tasks (chassis, led, and imu)
+
+# CAN receive procedure
+
+![](../../image/Jerry_dev_log/can1.png)
+
+HAL_CAN_RegisterCallback here states that RxFIFO0MessagePendingCallback should be called when a new CAN_IT_RX_FIFO0_MSG_PENDING event occurs.
+
+![](../../image/Jerry_dev_log/can2.png)
+
+When RxFIFO0MessagePendingCallback is called, it then calls RxCallback. RxCallback receives the incoming CAN message and checks if its id is registered. If so, it calls the the corresponding callback function. 
+
+![](../../image/Jerry_dev_log/can3.png)
+
+RegisterRxCallback registers the callback function of a motor. It is called in the constructor of a specific motor. 
+
+![](../../image/Jerry_dev_log/can4.png)
+
+![](../../image/Jerry_dev_log/can5.png)
+
+![](../../image/Jerry_dev_log/can6.png)
+
+Essentially, the can_motor_callback will be called when a new CAN message with the corresponding id arrives. Therefore, the motor’s data will be updated by UpdateData upon each new message.
+
+![](../../image/Jerry_dev_log/can7.png)
+
+
+## Nov 25
+- drivers for m4310 and m3508 motors work on my board.
+- dbus working so the board can receive signals from the remote controller
+- main robot code was working on another board
+  
+## Nov 26
+- m4310 was suddenly not working. I suspected that the CAN tranceiver might be dead on my board.
+- m3508 was working, which means that the CAN tranceiver is fine
+- after some tests I realized that m4310 works after connecting the CAN wires of m3508, but it doesn't work alone. 
+- the possible reason is that m4310 doesn't contain terminal resistors, while m3508 does. Therefore, connecting the m3508 motor adds the terminal resistor to the CAN network.
+
+## Nov 26 evening
+- main robot code working on our board!
