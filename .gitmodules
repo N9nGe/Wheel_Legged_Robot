@@ -1,0 +1,3 @@
+[submodule "iRM01_dev_board"]
+	path = iRM01_dev_board
+	url = git@github.com:jerrywrx/iRM01_dev_board.git
