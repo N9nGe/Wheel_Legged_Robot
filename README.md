@@ -26,8 +26,8 @@ This is a Wheel legged robot project. The motivation for this project arises fro
 The entire robotics project is divided into the following sections, located in different directories of the repository, with more detailed descriptions inside, so the reader can view them as needed:
 
 - [`Lab Notebook`](LabNotebook) : Development Log
-
-(This porject just starts~~~~~)
+- [`Microcontroller Board`](iRM01_dev_board) : Microcontroller Board
+- [`MatLab Code`](Control_MatLab_Code) : Control Simulation MatLab Code 
 
 
 
