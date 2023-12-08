@@ -13,6 +13,10 @@ This is a collaborative project by 3 students (Naixiang Gao, Runxuan Wang and Ze
 --------
 This is a Wheel legged robot project. The motivation for this project arises from the limitations inherent in conventional wheeled delivery robots, which predominantly feature a four-wheel chassis. This design restricts their ability to navigate terrains with obstacles, bumps, and stairs—common features in urban environments. A wheel-legged balancing robot, on the other hand, can effortlessly overcome such challenges, making it a particularly promising solution for delivery services.
 
+![](/image/cad.png)
+
+![](/image/real.png)
+
 **Team Member**
 -----------
 [Naixiang Gao](https://github.com/N9nGe)
